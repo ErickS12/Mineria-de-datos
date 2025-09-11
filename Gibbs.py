@@ -2,7 +2,7 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 import sympy as sp
-from sympy import integrate
+from sympy import integrate, N
 import random
 import numpy as np
 from matplotlib.figure import Figure
@@ -33,26 +33,48 @@ def ejecutar_simulacion(f_var, lim_inf_var, lim_sup_var, muestra_var, fig, canva
         # --- 2. CÁLCULOS DEL MUESTREADOR DE GIBBS ---
         puntos = [[random.uniform(lim_inf, lim_sup), random.uniform(lim_inf, lim_sup)]]
 
-        marginal_y = sp.integrate(f, (x, lim_inf, lim_sup))
+        # --- CÁLCULO DE LA CDF INVERSA PARA X ---
+        marginal_y = integrate(f, (x, lim_inf, lim_sup))
         condicional_x_dado_y = integrate(sp.cancel(f / marginal_y), (x, lim_inf, x))
-        solucion_x = sp.solve(sp.Eq(condicional_x_dado_y, u), x)[0]
+        soluciones_x = sp.solve(sp.Eq(condicional_x_dado_y, u), x)
 
-        marginal_x = sp.integrate(f, (y, lim_inf, lim_sup))
+        # Filtramos las soluciones para encontrar la correcta en lugar de tomar la primera [0]
+        solucion_x = None
+        test_mid_point = (lim_sup + lim_inf) / 2
+        for sol in soluciones_x:
+            # N() evalúa numéricamente la expresión para probarla
+            if lim_inf <= N(sol.subs({u: 0.5, y: test_mid_point})) <= lim_sup:
+                solucion_x = sol
+                break
+        if solucion_x is None:
+            raise ValueError("No se encontró una solución válida para la CDF inversa de X.")
+
+        # --- CÁLCULO DE LA CDF INVERSA PARA Y ---
+        marginal_x = integrate(f, (y, lim_inf, lim_sup))
         condicional_y_dado_x = integrate(sp.cancel(f / marginal_x), (y, lim_inf, y))
-        solucion_y = sp.solve(sp.Eq(condicional_y_dado_x, u), y)[0]
+        soluciones_y = sp.solve(sp.Eq(condicional_y_dado_x, u), y)
 
-        # ### LÍNEA MODIFICADA ###
-        # Cambiamos el número de muestras a descartar de 200 a 500
+        # Repetimos la misma lógica de filtrado para 'y'
+        solucion_y = None
+        for sol in soluciones_y:
+            if lim_inf <= N(sol.subs({u: 0.5, x: test_mid_point})) <= lim_sup:
+                solucion_y = sol
+                break
+        if solucion_y is None:
+            raise ValueError("No se encontró una solución válida para la CDF inversa de Y.")
+
         burn_in = 1000
 
         for i in range(1, muestra + burn_in):
             u_n_x = random.random()
-            x_n = solucion_x.subs({y: puntos[i-1][1], u: u_n_x}).evalf()
+            x_n = solucion_x.subs({y: puntos[i - 1][1], u: u_n_x}).evalf()
+
             u_n_y = random.random()
-            y_n = solucion_y.subs({x: puntos[i-1][0], u: u_n_y}).evalf()
+            y_n = solucion_y.subs({x: x_n, u: u_n_y}).evalf()
+
             puntos.append([x_n, y_n])
 
-        # Se descartan las primeras 'burn_in' (500) muestras
+        # Se descartan las primeras 'burn_in' muestras
         puntos_finales = puntos[burn_in:]
 
         # --- 3. PREPARAR DATOS PARA LA GRÁFICA 3D ---
@@ -68,17 +90,19 @@ def ejecutar_simulacion(f_var, lim_inf_var, lim_sup_var, muestra_var, fig, canva
 
         # --- 4. DIBUJAR LA GRÁFICA EN EL CANVAS ---
         ax = fig.add_subplot(111, projection='3d')
-        ax.plot_surface(X, Y, Z, alpha=0.6, cmap='viridis', rstride=1, cstride=1)
-        ax.scatter(px, py, pz, color='red', s=15, label=f'{muestra} Puntos')
+        ax.plot_surface(X, Y, Z, alpha=0.6, cmap='viridis', rstride=1, cstride=1, edgecolor='none')
+        ax.scatter(px, py, pz, color='red', s=15, label=f'{muestra} Puntos', depthshade=True)
         ax.set_xlabel('Eje X')
         ax.set_ylabel('Eje Y')
         ax.set_zlabel('f(x,y)')
         ax.legend()
+        ax.set_title("Muestras de Gibbs sobre f(x,y)")
 
         canvas.draw()
 
     except Exception as e:
-        messagebox.showerror("Error", f"Ocurrió un error: {e}\n\nRevisa que la función y los límites sean válidos.")
+        messagebox.showerror("Error",
+                             f"Ocurrió un error: {e}\n\nRevisa la función y los límites. Asegúrate de que las soluciones de la CDF inversa sean válidas.")
 
 
 # --- Interfaz Gráfica ---
