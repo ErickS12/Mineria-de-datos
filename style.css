@@ -1,0 +1,37 @@
+/* Estilos para el fondo de la aplicación */
+.stApp {
+    background-color: #7a8a9b;
+}
+
+/* Estilos para los botones */
+div.stButton > button:first-child {
+    background-color: #4CAF50;
+    color: white;
+}
+div.stButton > button:hover {
+    background-color: #45a049;
+    color: white;
+}
+
+/* Estilos para el pulgar del slider */
+div[data-baseweb="slider"] div[role="slider"] {
+    background-color: #dddd99; /* Color del pulgar del slider */
+}
+
+/* Estilos para la barra del slider */
+div[data-baseweb="slider"] div[data-testid="stSlider"] div[aria-hidden="true"] {
+    background-color: #306EF2; /* Color de la barra del slider */
+}
+
+/* Estilos para el número de entrada */
+.stNumberInput input {
+    border-color: #4fe122;
+    background-color: #4b5b7f;
+    color: white;
+}
+
+/* También puedes apuntar a los botones de flecha del number_input */
+.stNumberInput button {
+    background-color: #933f2c; /* Color de los botones de flecha */
+    color: white;
+}

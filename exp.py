@@ -2,7 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import streamlit as st 
 
-def main():
+def show_exponencial():
+    st.set_page_config(page_title="Simulador Exponencial", layout="centered")
     st.title("Distribución Exponencial")
 
     # --- Controles en la interfaz ---
@@ -37,6 +38,4 @@ def main():
     if st.checkbox("Mostrar toda la muestra"):
         st.dataframe(X)
 
-if __name__ == "__main__":
-    main()
 

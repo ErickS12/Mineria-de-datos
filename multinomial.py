@@ -1,97 +1,85 @@
-import streamlit as st
-import numpy as np
+import random
 import matplotlib.pyplot as plt
-import pandas as pd
-from matplotlib.patches import Patch
-from PIL import Image
+import numpy as np
+import tkinter as tk
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from tkinter import messagebox
 
-st.title("Simulación Multinomial")
+def abrir_ventana():
+    ventana = tk.Toplevel()
+    ventana.title("Simulador Multinomial")
+    ventana.geometry("800x700")
 
-# Elegir número de categorías
-k = st.number_input("Número de categorías", min_value=2, value=6, step=1, key="k_input")
+    # Frame para los inputs
+    input_frame = tk.Frame(ventana, padx=10, pady=10)
+    input_frame.pack()
 
-# Parámetros del experimento
-n = st.number_input("Tamaño de la muestra (n)", min_value=1, value=10, step=1, key="n_input")
-size = st.number_input("Número de simulaciones", min_value=1, value=5, step=1, key="size_input")
+    tk.Label(input_frame, text="Lanzamientos:").pack(side=tk.LEFT, padx=5)
+    entry_lanza = tk.Entry(input_frame)
+    entry_lanza.insert(0, "1000")
+    entry_lanza.pack(side=tk.LEFT, padx=5)
 
-# Inicializar en session_state
-if "muestras" not in st.session_state:
-    st.session_state.muestras = None
-if "k_state" not in st.session_state:
-    st.session_state.k_state = k
-if "size_state" not in st.session_state:
-    st.session_state.size_state = size
+    tk.Label(input_frame, text="Opciones:").pack(side=tk.LEFT, padx=5)
+    entry_opc = tk.Entry(input_frame)
+    entry_opc.insert(0, "20")
+    entry_opc.pack(side=tk.LEFT, padx=5)
 
-# Botón para simular
-if st.button("Simular", key="multi_button"):
-    # Guardamos los valores actuales para que no cambien
-    st.session_state.k_state = k
-    st.session_state.size_state = size
-    
-    # Crear inputs dinámicos según k
-    pvals = [1/k for i in range(k)]
-    
-    # Verificar que las probabilidades sumen 1
-    if np.isclose(sum(pvals), 1.0):
-        st.session_state.muestras = np.random.multinomial(n, pvals, size=size)
-    else:
-        st.error("⚠️ La suma de las probabilidades debe ser 1.")
+    label_status = tk.Label(ventana, text="", fg="black")
+    label_status.pack()
 
-# Si ya hay muestras guardadas, mostrarlas
-# Y solo si los parámetros no han cambiado desde la última simulación
-if st.session_state.muestras is not None and st.session_state.k_state == k and st.session_state.size_state == size:
-    muestras = st.session_state.muestras
-    
-    st.write("Resultados (cada fila es una simulación):")
+    graph_frame = tk.Frame(ventana)
+    graph_frame.pack(pady=10)
 
-    # Crear un DataFrame con el arreglo de NumPy
-    df_muestras = pd.DataFrame(
-        muestras,
-        index=np.arange(1, st.session_state.size_state + 1),  # El índice de la fila empieza en 1
-        columns=[f"Categoria. {i+1}" for i in range(st.session_state.k_state)] # Nombres de columna
-    )
-    
-    # Mostrar el DataFrame, que ya incluye el índice
-    st.dataframe(df_muestras)
-    
-    # Selector de fila 
-    fila = st.number_input(
-        "Elige el número de simulación para graficar",
-        min_value=1, max_value=st.session_state.size_state, value=1, step=1
-    )
-    
-    # Histograma de la simulación seleccionada
-    seleccion = df_muestras.iloc[fila-1]
+    # --- Función de simulación ---
+    def simu():
+        try:
+            lanza = int(entry_lanza.get())
+            opc = int(entry_opc.get())
 
-    fig, ax = plt.subplots()
+            if lanza <= 0 or opc <= 0:
+                messagebox.showerror("Error de entrada", "Los valores deben ser enteros positivos.")
+                return
+        except ValueError:
+            messagebox.showerror("Error de entrada", "Por favor, ingrese números enteros válidos.")
+            return
 
-    # Generar colores diferentes para cada categoría
-    colors = plt.cm.tab10.colors  # paleta de 10 colores (puedes cambiarla)
-    colores = [colors[i % len(colors)] for i in range(st.session_state.k_state)]
+        label_status.config(text="Simulación en curso...", fg="blue")
+        ventana.update_idletasks()
+        # Simulación multinomial: randint entre 1 y opc
+        numExitos = [random.randint(1, opc) for _ in range(lanza)]
 
-    # Dibujar barras
-    bars = ax.bar(
-        np.arange(1, st.session_state.k_state+1),   # posiciones
-        seleccion,           # alturas (frecuencia de cada categoría)
-        color=colores,       # colores distintos
-        edgecolor='black',
-        width=0.6
-    )
+        # Limpiar gráfico anterior
+        for widget in graph_frame.winfo_children():
+            widget.destroy()
 
-    # Agregar el valor encima de cada barra
-    for bar in bars:
-        height = bar.get_height()
-        ax.text(
-            bar.get_x() + bar.get_width()/2,  # centro de la barra
-            height + 0.005,                     # un poco arriba del borde
-            str(height),                      # texto = conteo
-            ha='center', va='bottom', fontsize=10, fontweight='bold'
-        )
+        # Crear histograma
+        fig = plt.Figure(figsize=(6, 5), dpi=100)
+        ax = fig.add_subplot(111)
 
-    # Configuración del gráfico
-    ax.set_xticks(range(1, st.session_state.k_state+1))
-    ax.set_xlabel("Categoría")
-    ax.set_ylabel("Frecuencia")
-    ax.set_title(f"Histograma de la simulación #{fila}")
+        N, bins, patches = ax.hist(numExitos, bins=opc, range=(0.5, opc + 0.5),color='skyblue', edgecolor='black')
 
-    st.pyplot(fig)
+        # Añadir frecuencias encima de las barras
+        for i in range(len(patches)):
+            altura = patches[i].get_height()
+            x_pos = patches[i].get_x() + patches[i].get_width() / 2
+            ax.text(x_pos, altura, str(int(altura)), ha='center', va='bottom')
+
+        ax.set_title('Histograma de número de repeticiones')
+        ax.set_xlabel('Valor')
+        ax.set_ylabel('Frecuencia')
+
+        # Integrar en Tkinter
+        canvas = FigureCanvasTkAgg(fig, master=graph_frame)
+        canvas_widget = canvas.get_tk_widget()
+        canvas_widget.pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+        canvas.draw()
+
+        label_status.config(text="Simulación completada.", fg="green")
+
+    # Botón ejecutar
+    button_run = tk.Button(input_frame, text="Ejecutar Simulación", command=simu)
+    button_run.pack(side=tk.LEFT, padx=5)
+
+    # Botón salir (cierra solo esta ventana)
+    button_salir = tk.Button(ventana, text="Salir", command=ventana.destroy)
+    button_salir.pack(pady=10)
