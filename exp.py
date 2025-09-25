@@ -5,6 +5,17 @@ import streamlit as st
 def show_exponencial():
     st.set_page_config(page_title="Simulador Exponencial", layout="centered")
     st.title("Distribución Exponencial")
+    st.write("Explora la distribución Exponencial y su comportamiento.")
+    st.markdown("""
+        <div class="caja-info">
+            <h4>Concepto de Distribución Exponencial</h4>
+            <p>La distribución Exponencial modela el tiempo transcurrido entre eventos en un proceso continuo e independiente. Es utilizada para predecir la vida útil de un componente, el tiempo entre clientes que entran a una tienda o el intervalo entre terremotos.</p>
+        </div>
+    """, unsafe_allow_html=True)
+    # --- Sección para la Imagen ---
+    #st.subheader("Ecuación")
+    #st.image("Imag_Exponencial.png", caption="Diagrama de un ensayo una Exponencial", use_container_width=True)
+        
 
     # --- Controles en la interfaz ---
     lmbda = st.slider("Valor de λ (lambda)", min_value=1, max_value=200, value=1, step=1)

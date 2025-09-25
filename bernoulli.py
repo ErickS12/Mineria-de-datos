@@ -10,7 +10,23 @@ def show_bernoulli():
 
     st.set_page_config(page_title="Simulador Binomial de Bernoulli", layout="centered")
     st.title("Distribución de Bernoulli")
+    st.write("Explora la probabilidad de éxito y fracaso en un solo intento.")
 
+    # --- Caja de texto informativa usando la clase CSS ---
+    st.markdown("""
+        <div class="caja-info">
+            <h4>Concepto de Bernoulli</h4>
+            <p>La distribución de Bernoulli es un modelo de probabilidad para experimentos con solo dos resultados posibles: <b>éxito</b> o <b>fracaso</b>. Por ejemplo, lanzar una moneda y obtener cara (éxito) o cruz (fracaso).</p>
+        </div>
+    """, unsafe_allow_html=True)
+    # --- Fin de la caja de texto informativa ---
+    
+    # --- Sección para la Imagen ---
+    st.subheader("Ecuación")
+    st.image("DistribucionBernoulli.png", use_container_width=True)
+    
+    
+    
     # Entradas con sliders y cajas numéricas
     n = 1
     p = st.slider("Probabilidad de éxito (p)", min_value=0.0, max_value=1.0, value=0.5, step=0.01, key="b_slider")

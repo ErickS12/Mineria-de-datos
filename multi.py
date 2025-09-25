@@ -8,6 +8,17 @@ from PIL import Image
 def show_multinomial():
 
     st.title("Simulación Multinomial")
+    st.write("Explora la distribución Multinomial con múltiples categorías.")
+    st.markdown("""
+        <div class="caja-info">
+            <h4>Concepto de Distribución Multinomial</h4>
+            <p>La distribución Multinomial es una extensión de la Binomial que modela el número de veces que cada resultado ocurre en una serie de <b>n</b> ensayos con más de dos resultados posibles. Se usa, por ejemplo, para predecir la frecuencia de cada color al sacar bolas de una urna o los resultados de un dado de seis caras.</p>
+        </div>
+    """, unsafe_allow_html=True)
+    # --- Sección para la Imagen ---
+    st.subheader("Ecuación")
+    st.image("Imag_Multinomial.png",  use_container_width=True)
+
 
     # Elegir número de categorías
     k = st.number_input("Número de categorías", min_value=2, value=6, step=1, key="k_input")

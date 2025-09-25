@@ -6,6 +6,16 @@ def show_normalConVyM():
 
     st.set_page_config(page_title="Simulador Normal Estandar", layout="centered")
     st.title("Simulación de una función de densidad normal estándar")
+    st.write("Genera una distribución normal estándar y ajusta con media y varianza.")
+    st.markdown("""
+        <div class="caja-info">
+            <h4>Concepto de Distribución Normal</h4>
+            <p>La distribución Normal o de Gauss es una distribución continua que describe datos que tienden a agruparse alrededor de un valor central. Es la "curva de campana" clásica, fundamental en la estadística para modelar fenómenos naturales como la altura de las personas o las puntuaciones en un examen.</p>
+        </div>
+    """, unsafe_allow_html=True)
+    # --- Sección para la Imagen ---
+    #st.subheader("Ecuación")   
+    #st.image("Imag_Normal.png", use_container_width=True)
 
     # Número de simulaciones
     n3 = st.number_input("Número de simulaciones (n)", min_value=1, value=1000, step=100, key="n3_input")

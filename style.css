@@ -35,3 +35,20 @@ div[data-baseweb="slider"] div[data-testid="stSlider"] div[aria-hidden="true"] {
     background-color: #933f2c; /* Color de los botones de flecha */
     color: white;
 }
+
+/* Archivo: styles.css */
+
+.caja-info {
+    border: 2px solid #007bff; /* Borde azul */
+    border-radius: 10px; /* Esquinas redondeadas */
+    padding: 20px; /* Espaciado interno */
+    margin: 20px 0; /* Margen superior e inferior */
+    text-align: center; /* Texto centrado */
+    background-color: #7497b6; /* Fondo azul muy claro */
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+.caja-info h4 {
+    color: #0056b3; /* Color de título un poco más oscuro */
+    margin-top: 0;
+}

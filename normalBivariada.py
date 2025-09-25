@@ -8,6 +8,15 @@ def show_normalBivariada():
     st.header("Distribución Normal Bivariada (Cálculo Manual)")
     st.write(
         "Genera y visualiza una distribución normal en dos variables, calculando la función de densidad manualmente.")
+    st.markdown("""
+        <div class="caja-info">
+            <h4>Concepto de Distribución Normal Bivariada</h4>
+            <p>La distribución Normal Bivariada es una extensión de la Normal a dos variables aleatorias. Es ideal para modelar la relación entre dos variables correlacionadas, como la altura y el peso de una persona, y se representa como una campana tridimensional.</p>
+        </div>
+    """, unsafe_allow_html=True)
+    # --- Sección para la Imagen ---
+    #st.subheader("Ecuación")
+    #st.image("Imag_NormalBivariada.png", use_container_width=True)
 
     # --- Widgets para los Parámetros ---
     st.markdown("---")

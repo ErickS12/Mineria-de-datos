@@ -4,8 +4,7 @@ import sympy as sp
 from sympy import integrate, N
 import random
 import numpy as np
-import matplotlib.pyplot as plt
-
+import plotly.graph_objects as go
 
 # --- Lógica de Cálculo y Gráfica ---
 def ejecutar_simulacion(f_str, lim_inf_str, lim_sup_str, muestra_str):
@@ -13,7 +12,6 @@ def ejecutar_simulacion(f_str, lim_inf_str, lim_sup_str, muestra_str):
     Función que se ejecuta al presionar el botón de Streamlit.
     """
     st.write("Calculando... Esto puede tardar unos segundos.")
-    # Usamos un contenedor para actualizar los elementos en su lugar
     chart_container = st.empty()
 
     try:
@@ -39,7 +37,6 @@ def ejecutar_simulacion(f_str, lim_inf_str, lim_sup_str, muestra_str):
         solucion_x = None
         test_mid_point = (lim_sup + lim_inf) / 2
         for sol in soluciones_x:
-            # Evaluar numéricamente para encontrar la solución correcta
             if lim_inf <= N(sol.subs({u: 0.5, y: test_mid_point})) <= lim_sup:
                 solucion_x = sol
                 break
@@ -82,24 +79,45 @@ def ejecutar_simulacion(f_str, lim_inf_str, lim_sup_str, muestra_str):
         f_numerica = sp.lambdify((x, y), f, 'numpy')
         pz = f_numerica(px, py)
 
-        grid_x = np.linspace(lim_inf, lim_sup, 30)
-        grid_y = np.linspace(lim_inf, lim_sup, 30)
+        grid_x = np.linspace(lim_inf, lim_sup, 40)
+        grid_y = np.linspace(lim_inf, lim_sup, 40)
         X, Y = np.meshgrid(grid_x, grid_y)
         Z = f_numerica(X, Y)
 
-        # --- 4. DIBUJAR LA GRÁFICA EN STREAMLIT ---
-        fig = plt.figure()
-        ax = fig.add_subplot(111, projection='3d')
-        ax.plot_surface(X, Y, Z, alpha=0.6, cmap='viridis', rstride=1, cstride=1, edgecolor='none')
-        ax.scatter(px, py, pz, color='red', s=15, label=f'{muestra} Puntos', depthshade=True)
-        ax.set_xlabel('Eje X')
-        ax.set_ylabel('Eje Y')
-        ax.set_zlabel('f(x,y)')
-        ax.legend()
-        ax.set_title("Muestras de Gibbs sobre f(x,y)")
+        # --- 4. DIBUJAR LA GRÁFICA CON PLOTLY ---
+        fig = go.Figure()
+
+        # Superficie
+        fig.add_trace(go.Surface(
+            x=X, y=Y, z=Z,
+            colorscale="Viridis",
+            opacity=0.6,
+            showscale=False
+        ))
+
+        # Puntos de Gibbs
+        fig.add_trace(go.Scatter3d(
+            x=px, y=py, z=pz,
+            mode="markers",
+            marker=dict(size=3, color="red"),
+            name=f"{muestra} Puntos"
+        ))
+
+        fig.update_layout(
+            scene=dict(
+                xaxis_title="Eje X",
+                yaxis_title="Eje Y",
+                zaxis_title="f(x,y)"
+            ),
+            title="Muestras de Gibbs sobre f(x,y)",
+            # --- Añade estas líneas para cambiar el color de fondo ---
+            paper_bgcolor='white',  # Color del fondo del "papel" del gráfico
+            plot_bgcolor='black',   # Color del fondo del área de trazado
+            font=dict(color='black') # Opcional: Cambia el color del texto para que sea visible en fondo oscuro
+        )
 
         with chart_container.container():
-            st.pyplot(fig)
+            st.plotly_chart(fig, use_container_width=True)
             st.success("Simulación finalizada. Resultados mostrados a continuación.")
 
     except Exception as e:
@@ -112,8 +130,18 @@ def ejecutar_simulacion(f_str, lim_inf_str, lim_sup_str, muestra_str):
 def show_gibbs():
     st.header("Muestreador de Gibbs")
     st.write("Genera muestras de una distribución de probabilidad conjunta f(x,y) usando el algoritmo de Gibbs.")
-
-    # --- Creación de Widgets con Streamlit ---
+    st.markdown("""
+        <div class="caja-info">
+            <h4>Concepto del Muestreador de Gibbs</h4>
+            <p>El Muestreador de Gibbs es un algoritmo utilizado en estadística para generar muestras de una distribución de probabilidad multivariada compleja, especialmente cuando el muestreo directo es difícil. Funciona extrayendo muestras repetidamente de cada variable, condicionando a los valores más recientes de las otras.</p>
+        </div>
+    """, unsafe_allow_html=True)
+    
+    # --- Sección para la Imagen ---
+    #st.subheader("Ecuación")
+    #st.image("Imag_Gibbs.png", use_container_width=True)
+    
+    
     with st.expander("Parámetros de Entrada", expanded=True):
         f_str = st.text_input("Función f(x, y):", value="(1/28)*(2*x+3*y+2)")
 
@@ -125,6 +153,5 @@ def show_gibbs():
 
         muestra_str = st.text_input("Tamaño de muestra:", value="250")
 
-    # Botón de ejecución
     if st.button("Ejecutar Simulación"):
         ejecutar_simulacion(f_str, lim_inf_str, lim_sup_str, muestra_str)

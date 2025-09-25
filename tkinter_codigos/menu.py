@@ -1,11 +1,11 @@
 import tkinter as tk
-import binoPuntual  # aquí está tu proceso
-import binomialInter   # cuando tengas otro, lo agregas
-import Multinomial
-import Multinomialc2
-import Exponencial
-import Normal
-import NormalVARyMED
+import tkinter_codigos.binoPuntual as binoPuntual  # aquí está tu proceso
+import tkinter_codigos.binomialInter as binomialInter   # cuando tengas otro, lo agregas
+import tkinter_codigos.Multinomial as Multinomial
+import tkinter_codigos.Multinomialc2 as Multinomialc2
+import tkinter_codigos.Exponencial as Exponencial
+import tkinter_codigos.Normal as Normal
+import tkinter_codigos.NormalVARyMED as NormalVARyMED
 import Gibbs
 
 def salir():
