@@ -31,7 +31,7 @@ def show_normalBivariada():
         mu_y = st.slider("Media de Y ($\mu_y$)", -5.0, 5.0, 0.0, 0.1)
         sigma_y = st.slider("Desviación estándar de Y ($\sigma_y$)", 0.1, 5.0, 1.0, 0.1)
 
-    rho = st.slider("Coeficiente de Correlación ($\rho$)", -1.0, 1.0, 0.0, 0.05, help="La correlación entre X y Y.")
+    rho = st.slider("Coeficiente de Correlación ($\rho$)", 0.0, 1.0, 0.0, 0.05, help="La correlación entre X y Y.")
 
     # --- Botón para Generar Gráfica ---
     if st.button("Generar Gráfica"):
