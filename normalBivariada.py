@@ -5,7 +5,7 @@ from mpl_toolkits.mplot3d import Axes3D
 
 
 def show_normalBivariada():
-    st.header("Distribución Normal Bivariada (Cálculo Manual)")
+    st.header("Distribución Normal Bivariada")
     st.write(
         "Genera y visualiza una distribución normal en dos variables, calculando la función de densidad manualmente.")
     st.markdown("""
