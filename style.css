@@ -1,54 +1,110 @@
-/* Estilos para el fondo de la aplicación */
+/* =====================
+   Estilos Generales
+   ===================== */
+
+/* Fondo de la aplicación */
 .stApp {
-    background-color: #7a8a9b;
+    background-color: #6cddec; /* Azul muy claro */
+    color: #004D40; /* Texto verde-azul oscuro */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Estilos para los botones */
+/* Títulos */
+h1, h2, h3, h4 {
+    color: #00796B; /* Verde-azul para títulos */
+}
+
+/* =====================
+   Botones
+   ===================== */
 div.stButton > button:first-child {
-    background-color: #4CAF50;
-    color: white;
+    background-color: #00ACC1; /* Azul turquesa brillante */
+    color: #FFFFFF; /* Texto blanco */
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s ease;
 }
+
 div.stButton > button:hover {
-    background-color: #45a049;
-    color: white;
+    background-color: #00838F; /* Azul más oscuro */
+    transform: scale(1.05);
+    cursor: pointer;
 }
 
-/* Estilos para el pulgar del slider */
+/* =====================
+   Sliders
+   ===================== */
 div[data-baseweb="slider"] div[role="slider"] {
-    background-color: #dddd99; /* Color del pulgar del slider */
+    background-color: #00ACC1; /* Pulgar del slider */
 }
 
-/* Estilos para la barra del slider */
 div[data-baseweb="slider"] div[data-testid="stSlider"] div[aria-hidden="true"] {
-    background-color: #306EF2; /* Color de la barra del slider */
+    background-color: #00838F; /* Barra del slider */
 }
 
-/* Estilos para el número de entrada */
+/* =====================
+   Number Input
+   ===================== */
 .stNumberInput input {
-    border-color: #4fe122;
-    background-color: #4b5b7f;
-    color: white;
+    border-color: #00ACC1;
+    background-color: #B2EBF2; /* Azul claro */
+    color: #004D40; /* Texto verde-azul oscuro */
+    border-radius: 5px;
+    padding: 5px;
 }
 
-/* También puedes apuntar a los botones de flecha del number_input */
 .stNumberInput button {
-    background-color: #933f2c; /* Color de los botones de flecha */
-    color: white;
+    background-color: #00ACC1;
+    color: #FFFFFF;
+    border-radius: 5px;
 }
 
-/* Archivo: styles.css */
-
+/* =====================
+   Tarjetas (.caja-info)
+   ===================== */
 .caja-info {
-    border: 2px solid #007bff; /* Borde azul */
-    border-radius: 10px; /* Esquinas redondeadas */
-    padding: 20px; /* Espaciado interno */
-    margin: 20px 0; /* Margen superior e inferior */
-    text-align: center; /* Texto centrado */
-    background-color: #7497b6; /* Fondo azul muy claro */
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    border: 2px solid #81D4FA; /* Azul medio para borde */
+    border-radius: 12px;
+    padding: 20px;
+    margin: 15px 0;
+    text-align: center;
+    background-color: #B2EBF2; /* Azul claro */
+    box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.caja-info:hover {
+    transform: translateY(-5px);
+    box-shadow: 6px 6px 18px rgba(0, 0, 0, 0.25);
 }
 
 .caja-info h4 {
-    color: #0056b3; /* Color de título un poco más oscuro */
+    color: #00796B; /* Título verde-azul */
     margin-top: 0;
+}
+
+.caja-info p {
+    color: #004D40; /* Texto verde-azul oscuro */
+}
+
+/* =====================
+   Separadores
+   ===================== */
+hr {
+    border: 1px solid #00ACC1; /* Separadores azul turquesa */
+    margin: 20px 0;
+}
+
+/* =====================
+   Links
+   ===================== */
+a {
+    color: #00ACC1; /* Azul turquesa */
+    font-weight: 600;
+}
+a:hover {
+    color: #00838F; /* Azul más oscuro */
+    text-decoration: underline;
 }
