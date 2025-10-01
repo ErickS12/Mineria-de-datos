@@ -14,8 +14,11 @@ def show_normalConVyM():
         </div>
     """, unsafe_allow_html=True)
     # --- Sección para la Imagen ---
-    #st.subheader("Ecuación")   
-    #st.image("Imag_Normal.png", use_container_width=True)
+    st.subheader("Ecuación de la Función de Densidad Normal Estándar")   
+    st.image("Imag_FuncionDensidadNormalEstandar.png", use_container_width=True)
+
+    st.subheader("Ecuación de la Función de Densidad Normal con Media y Varianza")   
+    st.image("Imag_FuncionDensidadNormalConMediaVarianza.png", use_container_width=True)
 
     # Número de simulaciones
     n3 = st.number_input("Número de simulaciones (n)", min_value=1, value=1000, step=100, key="n3_input")
