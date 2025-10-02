@@ -21,11 +21,11 @@ def show_multinomial():
 
 
     # Elegir número de categorías
-    k = st.number_input("Número de categorías", min_value=2, value=6, step=1, key="k_input")
+    k = st.number_input("Número de categorías (r)", min_value=2, value=6, step=1, key="k_input")
 
     # Parámetros del experimento
-    n = st.number_input("Número de ensayos (n)", min_value=1, value=10, step=1, key="n_input")
-    size = st.number_input("Número de simulaciones", min_value=1, value=5, step=1, key="size_input")
+    n = st.number_input("Número de ensayos (k)", min_value=1, value=10, step=1, key="n_input")
+    size = st.number_input("Número de simulaciones (n)", min_value=1, value=5, step=1, key="size_input")
 
     # Inicializar en session_state
     if "muestras" not in st.session_state:

@@ -19,7 +19,7 @@ def show_exponencial():
 
     # --- Controles en la interfaz ---
     lmbda = st.slider("Valor de λ (lambda)", min_value=1, max_value=200, value=1, step=1)
-    n = st.number_input("Número de pruebas", min_value=1, max_value=50000, value=10000, step=1000)
+    n = st.number_input("Número de simulaciones (n)", min_value=1, max_value=50000, value=10000, step=1000)
 
     if st.button("Simular"):
     # --- Simulación ---

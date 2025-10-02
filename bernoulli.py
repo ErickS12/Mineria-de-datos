@@ -27,8 +27,8 @@ def show_bernoulli():
     
     # Entradas con sliders y cajas numéricas
     n = 1
-    p = st.slider("Probabilidad de éxito (p)", min_value=0.0, max_value=1.0, value=0.5, step=0.01, key="b_slider")
-    k = st.number_input("Número de simulaciones (k)", min_value=1, value=100, step=1000, key="b_input")
+    p = st.slider("Probabilidad de éxito (θ)", min_value=0.0, max_value=1.0, value=0.5, step=0.01, key="b_slider")
+    k = st.number_input("Número de simulaciones (n)", min_value=1, value=100, step=1000, key="b_input")
 
     # Botón para ejecutar simulación
     if st.button("Simular"):

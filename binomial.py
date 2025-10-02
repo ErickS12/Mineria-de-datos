@@ -20,9 +20,9 @@ def show_binomial():
     st.image("Imag_Binomial.png", use_container_width=True)
     
 
-    n1 = st.number_input("Número de lanzamientos (n)", min_value=1, value=10, step=1, key="m_n_input")
-    p1 = st.slider("Probabilidad de éxito (p)", min_value=0.0, max_value=1.0, value=0.5, step=0.01, key="m_slider")
-    k1 = st.number_input("Número de simulaciones (k)", min_value=1, value=100, step=1000, key="m_input")
+    n1 = st.number_input("Número de ensayos (k)", min_value=1, value=10, step=1, key="m_n_input")
+    p1 = st.slider("Probabilidad de éxito (θ)", min_value=0.0, max_value=1.0, value=0.5, step=0.01, key="m_slider")
+    k1 = st.number_input("Número de simulaciones (n)", min_value=1, value=100, step=1000, key="m_input")
 
     if st.button("Simular Binomial", key="b_button"):
         resultados1 = np.random.binomial(n1, p1, k1)
