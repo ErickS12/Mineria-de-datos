@@ -1,26 +1,27 @@
 /* =====================
-   Estilos Generales
+   Estilos Generales (Paleta Sobria)
    ===================== */
 
-/* Fondo de la aplicación */
+/* Fondo oscuro y texto claro para un look moderno y enfocado */
 .stApp {
-    background-color: #3bc0d2; /* Azul muy claro */
-    color: #004D40; /* Texto verde-azul oscuro */
+    background-color: #1E1E1E; /* Gris oscuro (tipo editor de código) */
+    color: #D4D4D4; /* Gris claro para texto general */
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Títulos */
+/* Títulos con el color de acento principal para destacar jerarquía */
 h1, h2, h3, h4 {
-    color: #00796B; /* Verde-azul para títulos */
+    color: #4A90E2; /* Azul acero */
 }
 
 /* =====================
    Botones
    ===================== */
 div.stButton > button:first-child {
-    background-color: #00ACC1; /* Azul turquesa brillante */
-    color: #FFFFFF; /* Texto blanco */
-    border-radius: 10px;
+    background-color: #4A90E2; /* Azul acero */
+    color: #FFFFFF; /* Texto blanco para alto contraste */
+    border: 1px solid #4A90E2; /* Borde sutil del mismo color */
+    border-radius: 8px; /* Ligeramente menos redondeado para un look más técnico */
     padding: 10px 20px;
     font-size: 16px;
     font-weight: 600;
@@ -28,35 +29,39 @@ div.stButton > button:first-child {
 }
 
 div.stButton > button:hover {
-    background-color: #00838F; /* Azul más oscuro */
-    transform: scale(1.05);
+    background-color: #357ABD; /* Azul un poco más oscuro al pasar el cursor */
+    border-color: #357ABD;
+    transform: scale(1.02); /* Efecto de escala más sutil */
     cursor: pointer;
 }
 
 /* =====================
    Sliders
    ===================== */
+/* Pulgar del slider con el color de acento */
 div[data-baseweb="slider"] div[role="slider"] {
-    background-color: #aa3605; /* Pulgar del slider */
+    background-color: #4A90E2; /* Azul acero */
 }
 
+/* Barra del slider en un gris neutro */
 div[data-baseweb="slider"] div[data-testid="stSlider"] div[aria-hidden="true"] {
-    background-color: #00838F; /* Barra del slider */
+    background-color: #888888; /* Gris medio */
 }
 
 /* =====================
    Number Input
    ===================== */
 .stNumberInput input {
-    border-color: #00ACC1;
-    background-color: #B2EBF2; /* Azul claro */
-    color: #004D40; /* Texto verde-azul oscuro */
+    border-color: #888888; /* Borde gris medio */
+    background-color: #2A2A2A; /* Fondo gris oscuro, ligeramente más claro que el principal */
+    color: #D4D4D4; /* Texto gris claro */
     border-radius: 5px;
     padding: 5px;
 }
 
+/* Botones del input con el color de acento */
 .stNumberInput button {
-    background-color: #00ACC1;
+    background-color: #4A90E2;
     color: #FFFFFF;
     border-radius: 5px;
 }
@@ -65,35 +70,35 @@ div[data-baseweb="slider"] div[data-testid="stSlider"] div[aria-hidden="true"] {
    Tarjetas (.caja-info)
    ===================== */
 .caja-info {
-    border: 2px solid #81D4FA; /* Azul medio para borde */
-    border-radius: 12px;
+    border: 1px solid #444444; /* Borde gris oscuro sutil */
+    border-radius: 10px;
     padding: 20px;
     margin: 15px 0;
     text-align: center;
-    background-color: #B2EBF2; /* Azul claro */
-    box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.15);
+    background-color: #2A2A2A; /* Fondo diferenciado para agrupar contenido */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra más suave y moderna */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .caja-info:hover {
-    transform: translateY(-5px);
-    box-shadow: 6px 6px 18px rgba(0, 0, 0, 0.25);
+    transform: translateY(-4px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
 .caja-info h4 {
-    color: #00796B; /* Título verde-azul */
+    color: #4A90E2; /* Título con color de acento */
     margin-top: 0;
 }
 
 .caja-info p {
-    color: #004D40; /* Texto verde-azul oscuro */
+    color: #D4D4D4; /* Texto gris claro */
 }
 
 /* =====================
    Separadores
    ===================== */
 hr {
-    border: 1px solid #00ACC1; /* Separadores azul turquesa */
+    border: 1px solid #444444; /* Separador gris oscuro, menos prominente */
     margin: 20px 0;
 }
 
@@ -101,12 +106,11 @@ hr {
    Links
    ===================== */
 a {
-    color: #00ACC1; /* Azul turquesa */
+    color: #4A90E2; /* Azul acero para consistencia */
     font-weight: 600;
+    text-decoration: none; /* Se quita el subrayado por defecto para un look más limpio */
 }
 a:hover {
-    color: #00838F; /* Azul más oscuro */
-    text-decoration: underline;
+    color: #6CAEFF; /* Azul más claro al pasar el cursor */
+    text-decoration: underline; /* Se añade subrayado en hover para indicar interactividad */
 }
-
-
