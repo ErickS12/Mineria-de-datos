@@ -6,8 +6,9 @@ import random
 import numpy as np
 import plotly.graph_objects as go
 
+
 # --- Lógica de Cálculo y Gráfica ---
-def ejecutar_simulacion(f_str, lim_inf_str, lim_sup_str, muestra_str):
+def ejecutar_simulacion(f_str, lim_inf_str, lim_sup_str, x_inicial_str, y_inicial_str, muestra_str):
     """
     Función que se ejecuta al presionar el botón de Streamlit.
     """
@@ -20,6 +21,8 @@ def ejecutar_simulacion(f_str, lim_inf_str, lim_sup_str, muestra_str):
         f = sp.sympify(f_str)
         lim_inf = float(lim_inf_str)
         lim_sup = float(lim_sup_str)
+        x_inicial = float(x_inicial_str)
+        y_inicial = float(y_inicial_str)
         muestra = int(muestra_str)
 
         if lim_sup <= lim_inf:
@@ -27,7 +30,8 @@ def ejecutar_simulacion(f_str, lim_inf_str, lim_sup_str, muestra_str):
             return
 
         # --- 2. CÁLCULOS DEL MUESTREADOR DE GIBBS ---
-        puntos = [[random.uniform(lim_inf, lim_sup), random.uniform(lim_inf, lim_sup)]]
+        # Se usa el punto inicial proporcionado, sin importar si está dentro de los límites.
+        puntos = [[x_inicial, y_inicial]]
 
         # CÁLCULO DE LA CDF INVERSA PARA X
         marginal_y = integrate(f, (x, lim_inf, lim_sup))
@@ -37,9 +41,13 @@ def ejecutar_simulacion(f_str, lim_inf_str, lim_sup_str, muestra_str):
         solucion_x = None
         test_mid_point = (lim_sup + lim_inf) / 2
         for sol in soluciones_x:
-            if lim_inf <= N(sol.subs({u: 0.5, y: test_mid_point})) <= lim_sup:
-                solucion_x = sol
-                break
+            try:
+                eval_sol = N(sol.subs({u: 0.5, y: test_mid_point}))
+                if lim_inf <= eval_sol <= lim_sup:
+                    solucion_x = sol
+                    break
+            except (TypeError, sp.SympifyError):
+                continue
         if solucion_x is None:
             st.error("No se encontró una solución válida para la CDF inversa de X.")
             return
@@ -51,9 +59,13 @@ def ejecutar_simulacion(f_str, lim_inf_str, lim_sup_str, muestra_str):
 
         solucion_y = None
         for sol in soluciones_y:
-            if lim_inf <= N(sol.subs({u: 0.5, x: test_mid_point})) <= lim_sup:
-                solucion_y = sol
-                break
+            try:
+                eval_sol = N(sol.subs({u: 0.5, x: test_mid_point}))
+                if lim_inf <= eval_sol <= lim_sup:
+                    solucion_y = sol
+                    break
+            except (TypeError, sp.SympifyError):
+                continue
         if solucion_y is None:
             st.error("No se encontró una solución válida para la CDF inversa de Y.")
             return
@@ -84,6 +96,9 @@ def ejecutar_simulacion(f_str, lim_inf_str, lim_sup_str, muestra_str):
         X, Y = np.meshgrid(grid_x, grid_y)
         Z = f_numerica(X, Y)
 
+        # Calcular el valor de f(x,y) en el punto inicial
+        pz_inicial = f_numerica(np.array([x_inicial]), np.array([y_inicial]))
+
         # --- 4. DIBUJAR LA GRÁFICA CON PLOTLY ---
         fig = go.Figure()
 
@@ -103,17 +118,24 @@ def ejecutar_simulacion(f_str, lim_inf_str, lim_sup_str, muestra_str):
             name=f"{muestra} Puntos"
         ))
 
+        # MODIFICACIÓN: Punto inicial
+        fig.add_trace(go.Scatter3d(
+            x=[x_inicial], y=[y_inicial], z=pz_inicial,
+            mode="markers",
+            marker=dict(size=8, color="green", symbol='circle'),  # Marcador más grande y verde
+            name="Punto Inicial"
+        ))
+
         fig.update_layout(
             scene=dict(
                 xaxis_title="Eje X",
                 yaxis_title="Eje Y",
                 zaxis_title="f(x,y)"
             ),
-            title="Muestras de Gibbs sobre f(x,y)",
-            # --- Añade estas líneas para cambiar el color de fondo ---
-            paper_bgcolor="#839ECF",  # Color del fondo del "papel" del gráfico
-            plot_bgcolor="#FFFFFF",   # Color del fondo del área de trazado
-            font=dict(color='black') # Opcional: Cambia el color del texto para que sea visible en fondo oscuro
+            title="Muestras de Gibbs sobre f(x,y) y Punto Inicial",  # Título actualizado
+            paper_bgcolor='white',
+            plot_bgcolor='black',
+            font=dict(color='black')
         )
 
         with chart_container.container():
@@ -136,22 +158,19 @@ def show_gibbs():
             <p>El Muestreador de Gibbs es un algoritmo utilizado en estadística para generar muestras de una distribución de probabilidad multivariada compleja, especialmente cuando el muestreo directo es difícil. Funciona extrayendo muestras repetidamente de cada variable, condicionando a los valores más recientes de las otras.</p>
         </div>
     """, unsafe_allow_html=True)
-    
-    # --- Sección para la Imagen ---
-    #st.subheader("Ecuación")
-    #st.image("Imag_Gibbs.png", use_container_width=True)
-    
-    
+
     with st.expander("Parámetros de Entrada", expanded=True):
         f_str = st.text_input("Función f(x, y):", value="(1/28)*(2*x+3*y+2)")
 
         col1, col2 = st.columns(2)
         with col1:
             lim_inf_str = st.text_input("Límite inferior:", value="0")
+            x_inicial_str = st.text_input("X inicial:", value="1")
         with col2:
             lim_sup_str = st.text_input("Límite superior:", value="2")
+            y_inicial_str = st.text_input("Y inicial:", value="1")
 
         muestra_str = st.text_input("Tamaño de muestra:", value="250")
 
     if st.button("Ejecutar Simulación"):
-        ejecutar_simulacion(f_str, lim_inf_str, lim_sup_str, muestra_str)
+        ejecutar_simulacion(f_str, lim_inf_str, lim_sup_str, x_inicial_str, y_inicial_str, muestra_str)
