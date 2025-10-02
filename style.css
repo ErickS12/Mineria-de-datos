@@ -37,7 +37,7 @@ div.stButton > button:hover {
    Sliders
    ===================== */
 div[data-baseweb="slider"] div[role="slider"] {
-    background-color: #00ACC1; /* Pulgar del slider */
+    background-color: #aa3605; /* Pulgar del slider */
 }
 
 div[data-baseweb="slider"] div[data-testid="stSlider"] div[aria-hidden="true"] {
@@ -108,3 +108,5 @@ a:hover {
     color: #00838F; /* Azul más oscuro */
     text-decoration: underline;
 }
+
+

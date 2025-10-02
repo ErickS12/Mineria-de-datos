@@ -5,10 +5,8 @@ import pandas as pd
 from matplotlib.patches import Patch
 from PIL import Image
 
-
-
 def show_binomial():
-    st.set_page_config(page_title="Simulador Binomial y Multinomial", layout="centered")
+    
     st.title("Binomial")
     st.write("Explora la distribución Binomial con múltiples lanzamientos.")
     st.markdown("""

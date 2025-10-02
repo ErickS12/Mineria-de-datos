@@ -11,7 +11,7 @@ from normalBivariada import show_normalBivariada
 
 # --- CONFIGURACIÓN DE LA PÁGINA ---
 st.set_page_config(
-    page_title="Simuladores de Probabilidad 🎲",
+    page_title="Simuladores de Probabilidad ",
     layout="wide"
 )
 

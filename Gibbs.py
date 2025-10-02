@@ -111,8 +111,8 @@ def ejecutar_simulacion(f_str, lim_inf_str, lim_sup_str, muestra_str):
             ),
             title="Muestras de Gibbs sobre f(x,y)",
             # --- Añade estas líneas para cambiar el color de fondo ---
-            paper_bgcolor='white',  # Color del fondo del "papel" del gráfico
-            plot_bgcolor='black',   # Color del fondo del área de trazado
+            paper_bgcolor="#839ECF",  # Color del fondo del "papel" del gráfico
+            plot_bgcolor="#FFFFFF",   # Color del fondo del área de trazado
             font=dict(color='black') # Opcional: Cambia el color del texto para que sea visible en fondo oscuro
         )
 

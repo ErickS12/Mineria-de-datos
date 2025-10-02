@@ -5,10 +5,8 @@ import pandas as pd
 from matplotlib.patches import Patch
 from PIL import Image
 
-
 def show_bernoulli():
-
-    st.set_page_config(page_title="Simulador Binomial de Bernoulli", layout="centered")
+    
     st.title("Distribución de Bernoulli")
     st.write("Explora la probabilidad de éxito y fracaso en un solo intento.")
 
