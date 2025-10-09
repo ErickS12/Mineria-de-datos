@@ -21,7 +21,7 @@ def show_bernoulli():
     
     # --- Sección para la Imagen ---
     st.subheader("Ecuación")
-    st.image("DistribucionBernoulli.png", use_container_width=True)
+    st.image("images/Imag_DistribucionBernoulli.png", use_container_width=True)
     
     
     

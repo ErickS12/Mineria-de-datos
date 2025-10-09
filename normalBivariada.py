@@ -16,7 +16,7 @@ def show_normalBivariada():
     """, unsafe_allow_html=True)
     # --- Sección para la Imagen ---
     st.subheader("Ecuación")
-    st.image("Imag_NormalBivariada.png", use_container_width=True)
+    st.image("images/Imag_NormalBivariada.png", use_container_width=True)
 
     # --- Widgets para los Parámetros ---
     st.markdown("---")
@@ -31,7 +31,7 @@ def show_normalBivariada():
         mu_y = st.slider("Media de Y ($\mu_y$)", -5.0, 5.0, 0.0, 0.1)
         sigma_y = st.slider("Desviación estándar de Y ($\sigma_y$)", 0.1, 5.0, 1.0, 0.1)
 
-    rho = st.slider("Coeficiente de Correlación ($\rho$)", 0.0, 1.0, 0.0, 0.05, help="La correlación entre X y Y.")
+    rho = st.slider("Coeficiente de Correlación (𝜌)", 0.0, 1.0, 0.0, 0.05, help="La correlación entre X y Y.")
 
     # --- Botón para Generar Gráfica ---
     if st.button("Generar Gráfica"):

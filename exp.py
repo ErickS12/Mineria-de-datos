@@ -14,7 +14,7 @@ def show_exponencial():
     """, unsafe_allow_html=True)
     # --- Sección para la Imagen ---
     st.subheader("Ecuación")
-    st.image("Imag_Exponencial.png", caption="Diagrama de un ensayo una Exponencial", use_container_width=True)
+    st.image("images/Imag_Exponencial.png", caption="Diagrama de un ensayo una Exponencial", use_container_width=True)
         
 
     # --- Controles en la interfaz ---

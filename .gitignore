@@ -1,0 +1,11 @@
+# Directorio del entorno virtual
+venv/
+.venv/
+
+# Caché y archivos temporales de Python
+__pycache__/
+*.pyc
+
+# Archivos de Streamlit y editor de texto 
+.streamlit/
+.vscode/

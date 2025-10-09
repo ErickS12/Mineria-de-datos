@@ -17,7 +17,7 @@ def show_multinomial():
     """, unsafe_allow_html=True)
     # --- Sección para la Imagen ---
     st.subheader("Ecuación")
-    st.image("Imag_Multinomial.png",  use_container_width=True)
+    st.image("images/Imag_Multinomial.png",  use_container_width=True)
 
 
     # Elegir número de categorías

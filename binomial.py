@@ -17,7 +17,7 @@ def show_binomial():
     """, unsafe_allow_html=True)
     # --- Sección para la Imagen ---
     st.subheader("Ecuación")
-    st.image("Imag_Binomial.png", use_container_width=True)
+    st.image("images/Imag_Binomial.png", use_container_width=True)
     
 
     n1 = st.number_input("Número de ensayos (k)", min_value=1, value=10, step=1, key="m_n_input")
