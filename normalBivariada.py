@@ -17,6 +17,7 @@ def show_normalBivariada():
     # --- Sección para la Imagen ---
     st.subheader("Ecuación")
     st.image("images/Imag_NormalBivariada.png", use_container_width=True)
+    #--
 
     # --- Widgets para los Parámetros ---
     st.markdown("---")
