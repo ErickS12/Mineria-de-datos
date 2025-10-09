@@ -114,3 +114,22 @@ a:hover {
     color: #6CAEFF; /* Azul más claro al pasar el cursor */
     text-decoration: underline; /* Se añade subrayado en hover para indicar interactividad */
 }
+
+/* Selector para el contenedor de la barra lateral */
+[data-testid="stSidebar"] {
+    width: 250px !important; /* Ajusta el ancho de la barra lateral según sea necesario */
+    padding: 10px; /* Añade algo de espacio interno */
+}
+
+/* Selector para los botones reales dentro de la barra lateral */
+[data-testid="stSidebar"] .stButton > button {
+    /* Establece un ancho fijo para todos los botones */
+    width: 180px !important; 
+    
+    /* Centra el texto dentro de los botones */
+    text-align: center;
+    
+    /* Añade algo de espacio interno para mejorar la apariencia */
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
