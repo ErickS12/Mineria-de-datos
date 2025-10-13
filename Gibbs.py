@@ -140,7 +140,11 @@ def ejecutar_simulacion(f_str, lim_inf_str, lim_sup_str, x_inicial_str, y_inicia
             plot_bgcolor='black',
             font=dict(color='black'),
             legend=dict(
-                font=dict(color="black")
+                font=dict(color="black"),
+                orientation="h",    # Muestra los elementos horizontalmente
+                y=-0.15,           # Mueve la leyenda fuera del gráfico, en la parte inferior (ajusta este valor si necesitas más espacio)
+                xanchor="center",
+                x=0.5           # Centra la leyenda horizontalmente
             )
         )
 
