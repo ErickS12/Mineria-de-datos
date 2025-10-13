@@ -9,3 +9,6 @@ __pycache__/
 # Archivos de Streamlit y editor de texto 
 .streamlit/
 .vscode/
+
+# Ignorar configuraciones de VS Code Dev Containers
+.devcontainer/
