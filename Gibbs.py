@@ -133,7 +133,7 @@ def ejecutar_simulacion(f_str, lim_inf_str, lim_sup_str, x_inicial_str, y_inicia
                 zaxis_title="f(x,y)"
             ),
         title=dict(
-            text="Muestras de Gibbs sobre f(x,y) y Punto Inicial",
+            text="Muestras de Gibbs sobre f(x,y) y Punto Inicial.",
             font=dict(color="black")
         ), 
             paper_bgcolor='white',
