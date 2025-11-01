@@ -9,6 +9,7 @@ from normalConVyM import show_normalConVyM
 from Gibbs import show_gibbs
 from normalBivariada import show_normalBivariada
 from Poisson import show_poisson
+from MezclaNormales import show_MezclaNormales
 
 
 # --- CONFIGURACIÓN DE LA PÁGINA ---
@@ -54,6 +55,8 @@ if st.sidebar.button("Normal Bivariada"):
     st.session_state.current_page = 'normalBivariada'
 if st.sidebar.button("Poisson"):
     st.session_state.current_page = 'poisson'
+if st.sidebar.button("Mezcla de Normales"):
+    st.session_state.current_page = 'MezclaNormales'
 
 # --- PÁGINA PRINCIPAL ---
 if st.session_state.current_page == 'home':
@@ -88,3 +91,5 @@ elif st.session_state.current_page == 'normalBivariada':
     show_normalBivariada()
 elif st.session_state.current_page == 'poisson': # Debes añadir el botón y la condición
     show_poisson()
+elif st.session_state.current_page == 'MezclaNormales': # Debes añadir el botón y la condición
+    show_MezclaNormales()
