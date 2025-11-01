@@ -17,7 +17,7 @@ def show_poisson():
         </div>
     """, unsafe_allow_html=True)
     st.subheader("Ecuación de Poisson")
-    st.image("img/poisson.png", use_container_width=False)
+    st.image("images/poisson.png", use_container_width=False)
 
     st.markdown("---")
     st.subheader("Parámetros de la Simulación")
