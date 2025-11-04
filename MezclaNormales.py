@@ -53,7 +53,7 @@ def show_MezclaNormales():
 
         # if (esc_1 + esc_2) !=1 and (esc_1 > 0 & esc_2) > 0:
         for i in range(0, muestra + descarte):
-            y = random.gauss(Z, 0.1)  # numero aleatorio para Y que se encuentra en una normal
+            y = random.gauss(Z, 10)  # numero aleatorio para Y que se encuentra en una normal,
             pi_x1 = esc_1 * (
                         1 / math.sqrt(2 * math.pi * sigma_1 ** 2) * math.exp(-(Z - mu_1) ** 2 / (2 * sigma_1 ** 2)))
             pi_x2 = esc_2 * (
