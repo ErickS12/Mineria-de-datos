@@ -30,13 +30,17 @@ def show_MezclaNormales():
         # escalar para la primera normal
         esc_1 = st.slider("Escalar para la primer normal", min_value=0.0, max_value=1.0, value=0.7, step=0.1, key="slider_1")
         mu_1 = st.slider("Media (μ) de la primera normal", min_value=-20.0, max_value=20.0, value=7.0, step=0.1, key="slider_2")
-        sigma_1 = st.slider("Desviación estandar (𝜎) de la primera normal", min_value=0.0, max_value=1.0, value=0.5, step=0.1, key="slider_3")
+        sigma_1 = st.slider("Desviación estandar (𝜎) de la primera normal", min_value=0.0, max_value=20.0, value=0.5, step=0.1, key="slider_3")
         # Número de Iteraciones
         muestra = st.number_input("Total de Iteraciones (N)", min_value=1000, value=50000, step=1000)
     with col2:
-        esc_2 = st.slider("Escalar para la primer normal", min_value=0.0, max_value=1.0, value=0.3, step=0.1)
+        esc_2 = 1-esc_1
+        st.text(" ")
+        st.text(f"Escalar para la segunda normal: {esc_2:.1f}")
+        st.text(" ")
+        st.text(" ")
         mu_2 = st.slider("Media (μ) de la primera normal", min_value=-20.0, max_value=20.0, value=10.0, step=0.1)
-        sigma_2 = st.slider("Desviación estandar (𝜎) de la primera normal", min_value=0.0, max_value=1.0, value=0.5,step=0.1)
+        sigma_2 = st.slider("Desviación estandar (𝜎) de la primera normal", min_value=0.0, max_value=20.0, value=0.5,step=0.1)
         descarte = st.number_input("Muestras a descartar", min_value=0, value=5000, step=100)
 
 
