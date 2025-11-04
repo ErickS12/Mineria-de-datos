@@ -26,7 +26,7 @@ def show_poisson():
     col1, col2 = st.columns(2)
     with col1:
         # 1. Lambda (λ)
-        lambdaa = st.slider("Parámetro Lambda (λ)", min_value=1.0, max_value=20.0, value=5.0, step=0.1)
+        lambdaa = st.slider("Parámetro Lambda (λ)", min_value=0.0, max_value=20.0, value=5.0, step=0.1)
         # 2. Estado Inicial (i)
         estado_inicial = st.number_input("Estado Inicial (i)", min_value=0, value=int(lambdaa), step=1)
     with col2:
