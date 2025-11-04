@@ -46,14 +46,6 @@ def show_MezclaNormales():
 
     # Condición para ejecutar la simulación
     if st.button("Ejecutar Simulación M-H"):
-        esc_1 = 0.7
-        mu_1 = 7
-        sigma_1 = 0.5
-        esc_2 = 0.3
-        mu_2 = 10
-        sigma_2 = 0.5
-        muestra = 40000
-        descarte = 5000
         Z = 2
         y = 0
         cadMarkov = []
