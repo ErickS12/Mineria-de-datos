@@ -2,6 +2,7 @@ import random
 import matplotlib.pyplot as plt
 import numpy as np
 import streamlit as st
+import pandas as pd
 
 
 def show_poisson():
@@ -25,19 +26,17 @@ def show_poisson():
     # Controles de Usuario
     col1, col2 = st.columns(2)
     with col1:
-        # 1. Lambda (λ)
         lambdaa = st.slider("Parámetro Lambda (λ)", min_value=0.0, max_value=20.0, value=5.0, step=0.1)
-        # 2. Estado Inicial (i)
         estado_inicial = st.number_input("Estado Inicial (i)", min_value=0, value=int(lambdaa), step=1)
     with col2:
-        # 3. Número de Iteraciones
         N_iteraciones = st.number_input("Total de Iteraciones (N)", min_value=1000, value=50000, step=1000)
-        # 4. muestras a descartar
         cortar = st.number_input("Muestras a descartar", min_value=0, value=1000, step=100)
-
 
     # Condición para ejecutar la simulación
     if st.button("Ejecutar Simulación M-H"):
+
+        # ======= NUEVO: contador de aceptaciones =======
+        aceptaciones = 0
 
         # INICIALIZACIÓN DE LA CADENA
         cadMarkov = []
@@ -49,54 +48,53 @@ def show_poisson():
         with st.spinner(f"Generando {N_iteraciones} muestras..."):
 
             for b in range(N_iteraciones + cortar):
-                # PASO DE PROPUESTA
                 u_1 = random.random()
 
-                # Definición del candidato k (i-1 o i+1)
                 if u_1 <= 0.5:
                     if estado_i == 0:
-                        k = 0  # No puede ir a negativo
+                        k = 0
                     else:
                         k = estado_i - 1
                 else:
                     k = estado_i + 1
 
-                # PASO DE ACEPTACIÓN (Cálculo de alphaa = min(1, pi_k / pi_i))
-
+                # PASO DE ACEPTACIÓN
                 if k == estado_i and estado_i == 0:
                     ratio_pi = 1.0
-                elif k == (estado_i - 1):  # Movimiento a la izquierda
+                elif k == (estado_i - 1):
                     ratio_pi = estado_i / lambdaa
-                elif k == (estado_i + 1):  # Movimiento a la derecha
+                elif k == (estado_i + 1):
                     ratio_pi = lambdaa / (estado_i + 1)
                 else:
                     ratio_pi = 0.0
 
                 alphaa = min(1.0, ratio_pi)
 
-                # PASO DE DECISIÓN (Transición de estado)
+                # PASO DE DECISIÓN
                 u_2 = random.random()
 
                 if u_2 <= alphaa:
-                    # Aceptado: el estado se actualiza
                     estado_i = k
-                # else: Rechazado: el estado_i se mantiene.
+                    aceptaciones += 1   # ===== NUEVO: incremento de aceptación =====
 
-                # Guardamos el estado resultante
                 cadMarkov.append(estado_i)
 
         st.success("¡Simulación M-H finalizada con éxito!")
 
+        # ===== NUEVO: cálculo de tasa de aceptación =====
+        tasa_aceptacion = aceptaciones / (N_iteraciones + cortar)
+        st.subheader("Tasa de aceptación")
+        st.write(f"**Aceptaciones:** {aceptaciones}")
+        st.write(f"**Tasa de aceptación:** {tasa_aceptacion:.4f}")
+
         # PROCESAMIENTO Y VISUALIZACIÓN DE RESULTADOS
         muestras_validas = cadMarkov[cortar:]
 
-        # Definir el rango del histograma
         max_val = max(muestras_validas) if muestras_validas else int(lambdaa) + 5
         x_max = max(max_val, int(lambdaa) + 5)
 
         fig, ax = plt.subplots(figsize=(10, 6))
 
-        # HISTOGRAMA (Muestras de MH)
         ax.hist(
             muestras_validas,
             bins=np.arange(0, x_max + 2) - 0.5,
@@ -107,11 +105,9 @@ def show_poisson():
             label='Muestras Metropolis-Hastings'
         )
 
-        # Títulos y Etiquetas
         ax.set_title(f'Histograma de Muestras de Poisson (λ={lambdaa}) por M-H')
         ax.set_xlabel('Valor del Estado (k)')
         ax.set_ylabel('Frecuencia Normalizada')
-        # Establecer ticks en los enteros
         ax.set_xticks(np.arange(0, x_max + 1))
         ax.set_xlim(-0.5, x_max + 0.5)
         ax.legend()
@@ -119,8 +115,28 @@ def show_poisson():
 
         st.pyplot(fig)
 
-        # Mostrar las primeras muestras
+        # --- Graficar la traza de la cadena ---
+        st.subheader("Traza de la Cadena de Markov")
+
+        fig_trace, ax_trace = plt.subplots(figsize=(10, 4))
+        ax_trace.plot(muestras_validas, linewidth=1)
+        ax_trace.set_title("Evolución de la Cadena de Markov (Después del Burn-in)")
+        ax_trace.set_xlabel("Iteración")
+        ax_trace.set_ylabel("Valor del Estado (k)")
+        ax_trace.grid(alpha=0.3)
+
+        st.pyplot(fig_trace)
+
+        # Mostrar las primeras muestras en pandas
         with st.expander("Ver Muestras (Después del descarte)"):
             st.write(f"Se generaron {N_iteraciones} muestras y se descartaron {cortar} (descarte).")
-            st.write("Primeros 100 valores de la cadena válida:")
-            st.write(muestras_validas[:100])
+            st.write("Primeros 50 valores de la cadena válida:")
+
+            df = pd.DataFrame(
+                muestras_validas[:50],
+                columns=["Resultado"],
+            )
+            df.index = np.arange(1, len(df) + 1)
+            df.index.name = "Iteración"
+
+            st.dataframe(df, use_container_width=True)

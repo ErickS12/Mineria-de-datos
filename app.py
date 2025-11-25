@@ -10,6 +10,7 @@ from Gibbs import show_gibbs
 from normalBivariada import show_normalBivariada
 from Poisson import show_poisson
 from MezclaNormales import show_MezclaNormales
+from metropolis_beta import show_beta
 
 
 # --- CONFIGURACIÓN DE LA PÁGINA ---
@@ -57,6 +58,8 @@ if st.sidebar.button("Poisson"):
     st.session_state.current_page = 'poisson'
 if st.sidebar.button("Mezcla de Normales"):
     st.session_state.current_page = 'MezclaNormales'
+if st.sidebar.button("Beta"):
+    st.session_state.current_page = 'beta'
 
 # --- PÁGINA PRINCIPAL ---
 if st.session_state.current_page == 'home':
@@ -70,10 +73,14 @@ if st.session_state.current_page == 'home':
     -  **Binomial**: Repite varios experimentos de Bernoulli y analiza la distribución de resultados.
     -  **Multinomial**: Extensión de la binomial para más de dos resultados posibles.
     -  **Exponencial**: Modela tiempos entre eventos en procesos aleatorios.
-    - **Normal V&M**: Distribución normal con media y varianza personalizables.
+    -  **Normal V&M**: Distribución normal con media y varianza personalizables.
     -  **Gibbs**: Método de muestreo para generar muestras de distribuciones complejas.
     -  **Normal Bivariada**: Distribución normal para dos variables correlacionadas.
+    -  **Beta**: Modela proporciones o probabilidades, útil en contextos de incertidumbre entre 0 y 1.
+    -  **Mezcla de Normales**: Combina varias distribuciones normales para modelar datos con múltiples grupos.
+    -  **Poisson**: Modela el número de eventos que ocurren en un intervalo dado cuando los sucesos son independientes.
     """)
+
 
 elif st.session_state.current_page == 'bernoulli':
     show_bernoulli()
@@ -93,3 +100,5 @@ elif st.session_state.current_page == 'poisson': # Debes añadir el botón y la 
     show_poisson()
 elif st.session_state.current_page == 'MezclaNormales': # Debes añadir el botón y la condición
     show_MezclaNormales()
+elif st.session_state.current_page == 'beta':
+    show_beta() 
